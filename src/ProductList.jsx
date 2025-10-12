@@ -10,6 +10,7 @@ function ProductList({ onHomeClick }) {
     const [addedToCart, setAddedToCart] = useState({});
     const dispatch = useDispatch();
     const cartItems = useSelector(state => state.cart.items);
+    
   
 
 // Calculate total quantity of all items
@@ -263,7 +264,7 @@ const totalCartItems = cartItems.reduce((total, item) => total + item.quantity, 
         setShowCart(false);
     };
     const handleAddToCart = (product) => {
-        
+
          dispatch(addItem(product)); // Dispatch the action to add the product to the cart (Redux action)
         setAddedToCart((prevState) => ({ // Update the local state to reflect that the product has been added
     ...prevState, // Spread the previous state to retain existing entries
@@ -347,9 +348,13 @@ const totalCartItems = cartItems.reduce((total, item) => total + item.quantity, 
           <div className="product-cost">${plant.cost}</div> {/* Display plant cost */}
           <button
             className="product-button"
+            disabled={addedToCart[plant.name]}
+             style = {addedToCart[plant.name]?{backgroundColor:"gray"}:{backgroundColor:"green"}}
             onClick={() =>handleAddToCart(plant)} // Handle adding plant to cart
+
+
           >
-           Add to Cart
+            {addedToCart[plant.name] ? '✔ Added' : 'Add to Cart'}
           </button>
         </div>
       ))}
