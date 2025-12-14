@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeItem, updateQuantity } from './CartSlice';
-import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
@@ -51,31 +50,36 @@ const CartItem = ({ onContinueShopping }) => {
   };
 
   return (
-    <div className="cart-container">
-      <h2 style={{ color: 'black' }}>Total Cart Amount: ${calculateTotalAmount()}</h2>
-      <div>
+    <div className="max-w-4xl mx-auto bg-white rounded-xl shadow p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-xl font-semibold text-gray-800">Your Cart</h2>
+        <div className="text-lg font-bold text-emerald-700">Total: ${calculateTotalAmount().toFixed(2)}</div>
+      </div>
+
+      <div className="space-y-4">
         {cart.map(item => (
-          <div className="cart-item" key={item.name}>
-            <img className="cart-item-image" src={item.image} alt={item.name} />
-            <div className="cart-item-details">
-              <div className="cart-item-name">{item.name}</div>
-              <div className="cart-item-cost">{item.cost}</div>
-              <div className="cart-item-quantity">
-                <button className="cart-item-button cart-item-button-dec" onClick={() => handleDecrement(item)}>-</button>
-                <span className="cart-item-quantity-value">{item.quantity}</span>
-                <button className="cart-item-button cart-item-button-inc" onClick={() => handleIncrement(item)}>+</button>
+          <div key={item.name} className="flex flex-col sm:flex-row gap-4 items-start sm:items-center bg-gray-50 p-3 rounded">
+            <img className="h-24 w-full sm:w-24 object-cover rounded" src={item.image} alt={item.name} />
+            <div className="flex-1 min-w-0">
+              <div className="font-semibold text-gray-800 truncate">{item.name}</div>
+              <div className="text-sm text-gray-600">{item.cost}</div>
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                <button className="px-3 py-1 bg-gray-200 rounded" onClick={() => handleDecrement(item)}>-</button>
+                <div className="font-medium">{item.quantity}</div>
+                <button className="px-3 py-1 bg-gray-200 rounded" onClick={() => handleIncrement(item)}>+</button>
+                <div className="ml-0 sm:ml-6 text-sm text-gray-700">Item Total: <span className="font-bold text-gray-900">${calculateTotalCost(item).toFixed(2)}</span></div>
               </div>
-              <div className="cart-item-total">Total: ${calculateTotalCost(item)}</div>
-              <button className="cart-item-delete" onClick={() => handleRemove(item)}>Delete</button>
+            </div>
+            <div className="flex-shrink-0 w-full sm:w-auto flex justify-end sm:justify-center">
+              <button className="text-sm text-red-600" onClick={() => handleRemove(item)}>Remove</button>
             </div>
           </div>
         ))}
       </div>
-      <div style={{ marginTop: '20px', color: 'black' }} className='total_cart_amount'></div>
-      <div className="continue_shopping_btn">
-        <button className="get-started-button" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
-        <br />
-        <button className="get-started-button1" onClick={handleCheckoutShopping}>Checkout</button>
+
+      <div className="mt-6 flex gap-4">
+        <button className="btn-muted" onClick={(e) => handleContinueShopping(e)}>Continue Shopping</button>
+        <button className="btn-primary" onClick={handleCheckoutShopping}>Checkout</button>
       </div>
     </div>
   );
