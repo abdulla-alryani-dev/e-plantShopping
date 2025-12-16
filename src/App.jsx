@@ -27,8 +27,11 @@ function App() {
             </div>
           </div>
           <nav>
-            <button className="btn-muted mr-3" onClick={handleHomeClick}>Home</button>
-            <button className="btn-primary" onClick={handleGetStartedClick}>Shop Plants</button>
+            {!showProductList ? (
+              <button className="btn-primary" onClick={handleGetStartedClick}>Shop Plants</button>
+            ) : (
+              <button className="btn-muted" onClick={handleHomeClick}>Home</button>
+            )}
           </nav>
         </div>
       </header>
